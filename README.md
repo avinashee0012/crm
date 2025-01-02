@@ -46,7 +46,7 @@ The product Architecture can be divided into 4 stages as follows:
 
 **The flowchart is as follows:**
 
-![flowchart](src/main/resources/CRM_flowchart.jpg)
+![flowchart](src/main/resources/images/CRM_flowchart.jpg)
 
 **High-Level Approach:**
 
