@@ -65,5 +65,3 @@ Every user should have the following privilege operations-
 - Update customer details
 - Delete a customer
 - While deleting a customer, all the associated information should be deleted from the database.
-
-[Project Theory](https://github.com/avinashee0012/crm?tab=coc-ov-file#project-theory)
