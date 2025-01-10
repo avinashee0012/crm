@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+</head>
+
+<body>
+    <div th:replace="~{fragments/header :: header}"></div>
+    <br>
+
+    <div class="container w-25 border my-2">
+        <form>
+            <label for="fname" class="my-2">First Name:&ThinSpace;</label><input type="text" name="fname"
+                id="fname"><br>
+            <label for="lname" class="my-2">Last Name:&ThinSpace;</label><input type="text" name="lname" id="lname"><br>
+            <label for="email" class="my-2">Email:&ThinSpace;</label><input type="email" name="email" id="email"><br>
+            <button class="btn btn-success" id="submit_button">Submit</button>
+        </form>
+    </div>
+
+
+    <div th:replace="~{fragments/footer :: footer}"></div>
+
+
+
+    <script>
+
+        const submit_button = document.getElementById("submit_button");
+        submit_button.addEventListener("click", submitForm);
+
+        async function submitForm(event) {
+            event.preventDefault();
+            const formData = {
+                fname: document.getElementById("fname").value,
+                lname: document.getElementById("lname").value,
+                email: document.getElementById("email").value,
+            };
+
+            const response = await fetch("/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(formData)
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                console.log("Customer Saved Successfully!" + JSON.parse(result));
+            }
+            
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
