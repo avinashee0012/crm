@@ -15,7 +15,6 @@ public class CustomerEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String fname;
     private String lname;
     private String email;

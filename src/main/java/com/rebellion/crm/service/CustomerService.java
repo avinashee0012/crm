@@ -16,6 +16,16 @@ public class CustomerService {
         this.customerRepo = customerRepo;
     }
 
+    public CustomerEntity getCustomer(Long id) {
+        Optional<CustomerEntity> OptionalCustomer = customerRepo.findById(id);
+        if (OptionalCustomer.isPresent()) {
+            CustomerEntity customer = OptionalCustomer.get();
+            return customer;
+        } else {
+            throw new EntityNotFoundException("");
+        }
+    }
+
     public List<CustomerEntity> getAllCustomers() {
         return customerRepo.findAll();
     }

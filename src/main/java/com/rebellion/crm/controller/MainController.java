@@ -1,8 +1,9 @@
 package com.rebellion.crm.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -10,11 +11,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.rebellion.crm.entity.CustomerEntity;
 import com.rebellion.crm.service.CustomerService;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-
-
+import io.micrometer.common.lang.NonNull;
 
 @Controller
 public class MainController {
@@ -32,28 +30,45 @@ public class MainController {
         return modelAndView;
     }
 
+    @GetMapping("index")
+    public ModelAndView getIndexPage(ModelAndView modelAndView) {
+        modelAndView.setViewName("redirect:/");
+        return modelAndView;
+    }
+
     @GetMapping("add")
     public String getAddCustomerPage() {
         return "add-customer";
     }
-
-    //  BELOW ONES NEED TO BE FIXED
     
     @PostMapping("add")
-    public ModelAndView postCustomerForm(@RequestBody CustomerEntity entity) {
+    public ModelAndView postCustomerForm(@RequestBody CustomerEntity entity, ModelAndView modelAndView) {
         customerService.saveCustomer(entity);
-        return new ModelAndView("index.html");
+        modelAndView.setViewName("index");
+        return modelAndView;
     }
 
+    // This needs to be changed to @PutMapping
+    @GetMapping("update")
+    public ModelAndView updateCustomer(@RequestParam Long id, ModelAndView modelAndView) {
+        modelAndView.addObject("model", customerService.getCustomer(id));
+        modelAndView.setViewName("edit-customer");
+        return modelAndView;
+    }
 
-    @PutMapping("update/{id}")
-    public void updateCustomer(@PathVariable String id, @RequestBody CustomerEntity entity) {
+    @PostMapping("update")
+    public ModelAndView updateCustomer(@RequestBody CustomerEntity entity, ModelAndView modelAndView) {
         customerService.updateCustomer(entity);
+        modelAndView.setViewName("redirect:/");
+        return modelAndView;
     }
 
-    @DeleteMapping("delete")
-    public void deleteCustomer(@RequestParam Long id) {
+    // This needs to be changed to @DeleteMapping
+    @GetMapping("delete")
+    public ModelAndView deleteCustomer(@RequestParam Long id, ModelAndView modelAndView) {
         customerService.deleteCustomer(id);
+        modelAndView.setViewName("redirect:/");
+        return modelAndView;
     }
     
 }
