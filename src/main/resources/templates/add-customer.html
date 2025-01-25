@@ -28,28 +28,6 @@
 
     <div th:replace="~{fragments/footer :: footer}"></div>
 
-
-    <script>
-        (() => {
-            'use strict'
-
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
-            const forms = document.querySelectorAll('.needs-validation')
-
-            // Loop over them and prevent submission
-            Array.from(forms).forEach(form => {
-                form.addEventListener('submit', event => {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-    </script>
-
     <script>
 
         const submit_button = document.getElementById("submit_button");
@@ -57,22 +35,26 @@
 
         async function submitForm(event) {
             event.preventDefault();
-            const formData = {
-                fname: document.getElementById("fname").value,
-                lname: document.getElementById("lname").value,
-                email: document.getElementById("email").value,
-            };
 
-            const response = await fetch("/add", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData)
-            });
+            if (document.getElementById("fname").value != "" && document.getElementById("lname").value != "" && document.getElementById("email").value != "") {
+                const formData = {
+                    fname: document.getElementById("fname").value,
+                    lname: document.getElementById("lname").value,
+                    email: document.getElementById("email").value,
+                };
 
-            if (response.ok) {
-                window.location.href = "http://localhost:8080/";
+                const response = await fetch("/add", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                });
+                if (response.ok) {
+                    window.location.href = "http://localhost:8080/";
+                }
+            } else {
+                alert("Incorrect input");
             }
         }
     </script>
